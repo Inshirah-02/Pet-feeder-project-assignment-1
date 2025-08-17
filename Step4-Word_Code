@@ -1,18 +1,30 @@
-Initialize:
-   - Set feeding times = [09:00, 19:00]
-   - Set alert status = False
+import time
 
-2. Loop Forever:
-   a. Get current time
-   b. If current time == feeding times[any]:
-      i. If food level sensor == True:
-         - Activate servo motor (dispense food)
-         - Record bowl weight after = weight sensor.read()
-         - Wait 10 minutes
-         - If bowl weight after == weight sensor.read():
-            - Set alert status = "Food Not Eaten"
-      ii. Else:
-         - Set alert status = "Food Empty"
-   c. If alert status != False:
-      - Trigger alert (buzzer/LED/phone notification)
-      - Reset alert status
+def pet_feeder():  # This is a FUNCTION
+    has_food = True
+    bowl_weight = 0
+    feeding_time = time.strftime("%H:%M")  # Use current time
+
+    print("🐾 Pet Feeder Activated! Press Ctrl+C to stop.")
+    
+    try:
+        while True:
+            current_time = time.strftime("%H:%M")
+            if current_time == feeding_time:
+                print("\n⏰ It's feeding time!")
+                if not has_food:
+                    print("🚨 ALERT: No food in container!")
+                else:
+                    print("🍕 Dispensing food...")
+                    bowl_weight = 150
+                    print("⏳ Waiting to see if pet eats...")
+                    time.sleep(5)
+                    if bowl_weight >= 150:
+                        print("🚨 ALERT: Food not eaten!")
+            time.sleep(10)
+    
+    except KeyboardInterrupt:
+        print("\n🔴 Feeder stopped.")
+
+# Call the FUNCTION properly:
+pet_feeder()  # ✅ No ".run()" needed!
