@@ -1,1 +1,53 @@
+To design a low-cost, programmable automated pet feeder system for an animal shelter that:
 
+Dispenses food for cats and dogs at scheduled times.
+Monitors whether food has been consumed (or the amount consumed).
+Alerts staff if issues arise (e.g., no food dispensed, food not eaten).
+Assumptions:
+The system supports one type of pet food (generic dry food for both cats and dogs)
+Feeding times are predefined (e.g., 11 AM and 8 PM)
+The system has:
+
+A real-time clock (to track feeding times)
+A food level sensor (detects if the food bin is empty)
+A weight sensor under the bowl (detects if food was eaten)
+A servo motor (dispenses food into the bowl)
+A buzzer/LED/notification system (for alerts)
+Inputs:
+
+Clock system
+Food measurement system
+Bowl weight system
+Output:
+
+Alert system (LED/buzzer alarm/phone notification)
+serving mechanism (dispenser)
+Input	Type	Sample Value	Constraint
+Current Time	HH:MM	12:34	match feeding schedule
+Food Level	Boolean	True/False	False = Empty
+Bowl weight (before)	Grams (g)	0g (empty)	
+Bowl weight (after)	Grams (g)	150g (full)	If not changed --> not eaten
+Output	Action	Condition
+Dispense food	Rotate serving motor for [X] seconds	Time = Feeding time (MM:ss) AND Food available (g)
+Send alert	Sound buzzer/ send phone notification	food empty or not eaten
+`1. Initialize:
+
+Set feeding_times = [11:00, 20:00]
+Set alert_status = False
+Loop Forever:
+a. Get current_time
+b. If current_time = feeding_times[any]:
+i. If food_level_sensor = True:
+- Activate servo_motor (dispense food)
+- Record bowl_weight_after = weight_sensor.read()
+- Wait 10 minutes
+- If bowl_weight_after = weight_sensor.read():
+- Set alert_status = "Food Not Eaten"
+ii. Else:
+- Set alert_status = "Food Empty"
+c. If alert_status != False:
+Trigger alert (buzzer/LED/notification)
+Reset alert_status`
+
+
+For more clear understanding, head to "Issues"
