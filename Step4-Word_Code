@@ -1,1 +1,18 @@
+Initialize:
+   - Set feeding times = [09:00, 19:00]
+   - Set alert status = False
 
+2. Loop Forever:
+   a. Get current time
+   b. If current time == feeding times[any]:
+      i. If food level sensor == True:
+         - Activate servo motor (dispense food)
+         - Record bowl weight after = weight sensor.read()
+         - Wait 10 minutes
+         - If bowl weight after == weight sensor.read():
+            - Set alert status = "Food Not Eaten"
+      ii. Else:
+         - Set alert status = "Food Empty"
+   c. If alert status != False:
+      - Trigger alert (buzzer/LED/phone notification)
+      - Reset alert status
